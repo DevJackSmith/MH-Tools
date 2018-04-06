@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Catch Rate Estimator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-ui.touch-punch.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.tablesorter.combined.min.js"></script>
+
+    <script type="text/javascript" src="src/utils/cre-ui.js"></script>
+    <script type="text/javascript" src="src/utils/bookmarklets.js"></script>
+    <script type="text/javascript" src="src/main/arrays.js"></script>
+    <script type="text/javascript" src="src/main/populations.js"></script>
+    <script type="text/javascript" src="src/main/common.js"></script>
+    <script type="text/javascript" src="src/utils/ampslider.js"></script>
+    <script type="text/javascript" src="src/main/cre.js"></script>
+
+    <link rel="stylesheet" href="resources/css/style.css" type="text/css" media="print, projection, screen"/>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" type="text/css" media="print, projection, screen"/>
+    <link rel="icon" type="image/x-icon" href="resources/img/favicon.ico">
+
+    <style type="text/css">
+
+
+    </style>
+    <!--###################################################################################-->
+
+
+</head>
+
+<body>
+<div class="container">
+
+    <div class="header">
+        <a href="index.html"><- All Tools</a>
+        <h1>Catch Rate Estimator</h1>
+        <!-- <p>Bookmarklet Usage (optional):<br>[Try the new <a id="bookmarkletloader" href="#">Auto-Loader</a> bookmarklet]<br>1) Save this <a id="bookmarklet" href="#">CRE</a> bookmarklet
+            (<a id="instructions" href="#">Detailed Instructions</a>)<br>2) Navigate to the Camp on <a
+                    href="https://www.mousehuntgame.com/" target="_blank" rel="noopener">mousehuntgame.com</a> (<i>not</i>
+            compatible with Facebook's app)<br>3) Click the bookmarklet to load in your current setup! -->
+        <a href="https://github.com/tsitu/MH-Tools/blob/master/README.md#straight_ruler-catch-rate-estimator" target="_blank" rel="noopener">Instructions</a> | <a id="bookmarkletloader" href="#">Auto-Loader</a> | <a id="bookmarklet" href="#">CRE</a>
+    </div>
+    <!--###################################################################################-->
+    <table class="form">
+        <tbody class="comments">
+
+        <tr class="display-location display-whisker-woods-rift">
+            <td>Comments:</td>
+            <td class="locationComment">
+                Rage states: Low = 1-24, Medium = 25-49, High = 50 <br>
+                Still missing some rage states and charm populations
+            </td>
+        </tr>
+
+        <tr class="display-location display-bristle-woods-rift">
+            <td>Comments:</td>
+            <td class="locationComment">
+                Please report inaccurate minimum luck values
+                    <a href="https://www.mousehuntgame.com/forum/showthread.php?132397-MouseHunt-Tools-by-tsitu&p=1385609&viewfull=1#post1385609"
+                    target="_blank" rel="noopener">here</a><br>
+                Attraction rates may be skewed due to portal buffs and curses
+            </td>
+        </tr>
+
+        <!-- Removed 'Combined' in populations.csv because it may be misleading -->
+        <!-- <tr class="display-location display-furoma-rift">
+            <td>Comments:</td>
+            <td class="locationComment">
+                Magical String data coming soon.
+            </td>
+        </tr> -->
+
+        <tr class="display-location display-labyrinth">
+            <td>Comments:</td>
+            <td class="locationComment">
+                Labyrinth and Minotaur bases are assumed to have 50% Dead End clue negation <br>
+                Compass Magnet Charm dead-end clue removal rate is still unknown
+            </td>
+        </tr>
+
+        <tr class="display-location display-zugzwangs-tower">
+            <td>Comments:</td>
+            <td class="locationComment">Assumptions that were made when narrowing down populations can be found
+                <a href="https://www.mousehuntgame.com/forum/showthread.php?95543-Catch-Rate-Calculator&p=1328110&viewfull=1#post1328110"
+                target="_blank" rel="noopener">here</a>
+            </td>
+        </tr>
+
+        <tr class="display-location display-moussu-picchu">
+            <td>Comments:</td>
+            <td class="locationComment">
+                Please report inaccurate minimum luck values (particularly for Storm Dragons)
+                <a href="https://www.mousehuntgame.com/forum/showthread.php?132397-MouseHunt-Tools-by-tsitu&p=1385673&viewfull=1#post1385673"
+                target="_blank" rel="noopener">here</a>
+            </td>
+        </tr>
+
+        </tbody>
+
+        <tbody class="input-all">
+        <tr>
+            <td>Custom values:</td>
+            <td>
+                <input type="checkbox" id="toggleCustom">
+            </td>
+        </tr>
+
+        <tr>
+            <td>Location:</td>
+            <td>
+                <select id="location">
+                </select>
+            </td>
+        </tr>
+
+        <tr id="phaseRow" style="display:none">
+            <td>Sublocation:</td>
+            <td>
+                <select id="phase">
+                    <option>-</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Cheese:</td>
+            <td>
+                <select id="cheese">
+                    <option>Select a location</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr id="toxicRow" class="hidden input-standard">
+            <td>Toxic:</td>
+            <td>
+                <select id="toxic">
+                    <option>No</option>
+                    <option>Yes</option>
+                </select>
+            </td>
+        </tr>
+        </tbody>
+
+        <tbody class="input-special">
+        <tr class="display-location display-labyrinth" style="display:none">
+            <td>Lantern Oil:</td>
+            <td>
+                <select id="oil">
+                    <option>Off</option>
+                    <option>On</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr class="display-location display-furoma-rift" style="display:none">
+            <td>Battery Level:</td>
+            <td>
+                <input type="number" id="battery" min="0" max="10"/>
+            </td>
+        </tr>
+
+        <tr class="display-location display-fort-rox">
+            <td>Ballista Level:</td>
+            <td>
+                <input name="ballista" id="ballistaLevel" type="number" min="0" max="3" value="0"/>
+            </td>
+        </tr>
+        <tr class="display-location display-fort-rox">
+            <td>Cannon Level:</td>
+            <td>
+                <input name="cannon" type="number" id="cannonLevel" min="0" max="3" value="0"/>
+            </td>
+        </tr>
+
+        <tr class="display-location display-zugzwangs-tower" style="display:none">
+            <td>Amp:</td>
+            <td>
+                <input id="ampValue" type="text" size="3" value="0" readonly>%
+            </td>
+        </tr>
+
+        <tr class="display-location display-zugzwangs-tower">
+            <td></td>
+            <td>
+                <div id="ampSlider"></div>
+            </td>
+        </tr>
+        </tbody>
+
+        <tbody class="input-standard">
+        <tr>
+            <td>Weapon:</td>
+            <td>
+                <select id="weapon">
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Base:</td>
+            <td>
+                <select id="base">
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Charm:</td>
+            <td>
+                <select id="charm">
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Golden Shield:</td>
+            <td>
+                <select id="gs">
+                    <option value='Y'>Yes</option>
+                    <option value='N'>No</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Riftstalker Codex:</td>
+            <td>
+                <input type="checkbox" id="riftstalker">
+            </td>
+        </tr>
+
+        <tr>
+            <td>Bonus Luck:</td>
+            <td>
+                <input id="bonusLuck" type="number" value="0" min="0">
+            </td>
+        </tr>
+
+        </tbody>
+
+        <tbody class="input-custom hidden">
+        <tr>
+            <td>Type:</td>
+            <td>
+                <select id="trapPowerType">
+                    <option value='Physical'>Physical</option>
+                    <option value='Tactical'>Tactical</option>
+                    <option value='Hydro'>Hydro</option>
+                    <option value='Arcane'>Arcane</option>
+                    <option value='Forgotten'>Forgotten</option>
+                    <option value='Law'>Law</option>
+                    <option value='Rift'>Rift</option>
+                    <option value='Shadow'>Shadow</option>
+                    <option value='Draconic'>Draconic</option>
+                    <option value='Parental'>Parental</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Power:</td>
+            <td>
+                <input id="trapPowerValue" type="number" value="0" min="0">
+            </td>
+        </tr>
+
+        <tr>
+            <td>Luck:</td>
+            <td>
+                <input id="trapLuckValue" type="number" value="0" min="0">
+            </td>
+        </tr>
+
+        <tr>
+            <td>Attraction Bonus:</td>
+            <td>
+                <input id="trapAttractionValue" type="number" value="0" min="0" max="100">%
+            </td>
+        </tr>
+
+        <tr>
+            <td>Cheese Effect:</td>
+            <td>
+                <select id="trapEffect">
+                    <option value='0'>No Effect</option>
+                    <option value='1'>Fresh</option>
+                    <option value='-1'>Stale</option>
+                    <option value='2'>Very Fresh</option>
+                    <option value='-2'>Very Stale</option>
+                    <option value='3'>Extremely Fresh</option>
+                    <option value='-3'>Extremely Stale</option>
+                    <option value='4'>Insanely Fresh</option>
+                    <option value='-4'>Insanely Stale</option>
+                    <option value='5'>Ultimately Fresh</option>
+                    <option value='-5'>Ultimately Stale</option>
+                    <option value='6'>Über Fresh</option>
+                    <option value='-6'>Über Stale</option>
+                </select>
+            </td>
+        </tr>
+        </tbody>
+
+        <tbody class="input-all">
+        <tr>
+            <td>Tourney:</td>
+            <td>
+                <select id="tourney">
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Rank:</td>
+            <td>
+                <select id="rank">
+                    <option value="">-</option>
+                    <option value='novice'>Novice</option>
+                    <option value='recruit'>Recruit</option>
+                    <option value='apprentice'>Apprentice</option>
+                    <option value='initiate'>Initiate</option>
+                    <option value='journeyman'>Journeyman / Journeywoman</option>
+                    <option value='master'>Master</option>
+                    <option value='grandmaster'>Grandmaster</option>
+                    <option value='legendary'>Legendary</option>
+                    <option value='hero'>Hero</option>
+                    <option value='knight'>Knight</option>
+                    <option value='lord'>Lord / Lady</option>
+                    <option value='baron'>Baron / Baroness</option>
+                    <option value='count'>Count / Countess</option>
+                    <option value='duke'>Duke/ Duchess</option>
+                    <option value='grandduke'>Grand Duke / Grand Duchess</option>
+                    <option value='archduke'>Archduke / Archduchess</option>
+                    <option value='viceroy'>Viceroy</option>
+                    <option value='elder'>Elder</option>
+                    <option value='sage'>Sage</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Cheese cost:</td>
+            <td>
+                <input id="cheeseCost" type="text" size="5" value="0">
+            </td>
+        </tr>
+        </tbody>
+        <tr class="input-standard">
+            <td><a id="link" target="_blank" rel="noopener" class="input-standard">Link to setup</a></td>
+        </tr>
+        <tr id='status' class="input-all">
+            <td>Loading...</td>
+        </tr>
+    </table>
+
+    <table id='trapSetup' class="input-standard"></table>
+
+    <table id='results' class='tablesorter'>
+        <thead></thead>
+        <tbody></tbody>
+    </table><br>
+
+    <div>Thanks to the work of Adriel, Chad, Nick, Ben, Paul, Yikai, Kat and many others<br>
+        Maintained by Tran, Renette, Sophie et al.<br>
+    <a href="https://www.mousehuntgame.com/forum/showthread.php?132397-MouseHunt-Tools-by-tsitu&goto=newpost"
+        target="_blank" rel="noopener">Report bugs and suggest features</a><br>
+    <a href="https://github.com/tsitu/MH-Tools/" target="_blank" rel="noopener">Contribute</a><br><br></div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Best Setup Tool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.tablesorter.combined.min.js"></script>
+    <script type="text/javascript" src="lib/widget-pager.min.js"></script>
+    <script type="text/javascript" src="lib/js-cookie.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-ui.touch-punch.min.js"></script>
+
+    <script type="text/javascript" src="src/utils/setup-ui.js"></script>
+    <script type="text/javascript" src="src/utils/bookmarklets.js"></script>
+    <script type="text/javascript" src="src/main/arrays.js"></script>
+    <script type="text/javascript" src="src/main/populations.js"></script>
+    <script type="text/javascript" src="src/main/common.js"></script>
+    <script type="text/javascript" src="src/utils/ampslider.js"></script>
+    <script type="text/javascript" src="src/main/setup.js"></script>
+
+    <link rel="stylesheet" href="resources/css/style.css" type="text/css" media="print, projection, screen"/>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" type="text/css" media="print, projection, screen"/>
+    <link rel="icon" type="image/x-icon" href="resources/img/favicon.ico">
+
+    <style type="text/css">
+        td {
+            margin: 4px;
+            padding: 4px 6px;
+        }
+
+        th {
+            margin: 4px;
+            padding: 4px 6px;
+        }
+
+        select {
+            padding: 4px;
+        }
+
+        #status {
+            font-weight: 700;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        #pleaseWaitMessage {
+            font-weight: 700;
+            font-size: 16px;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="top" style="margin-top: 20px; margin-left: 20px">
+    <div class="header">
+        <a href="index.html"><- All Tools</a>
+        <h1>Best Setup Tool</h1>
+        <a href="https://github.com/tsitu/MH-Tools/blob/master/README.md#trophy-best-setup" target="_blank"
+        rel="noopener">Instructions</a> |
+        <a id="bookmarkletloader" href="#">Auto-Loader</a> |
+        <a id="bookmarklet" href="#">Best Setup</a>
+    </div>
+</div>
+<div id="main" style="margin-top: 20px; margin-left: 20px; display: hidden">
+    <table class="form">
+        <tbody class="comments">
+
+        <tr class="display-location display-whisker-woods-rift">
+            <td>Comments:</td>
+            <td class="locationComment">Rage states: Low = 1-24, Medium = 25-49, High = 50<br>Still missing some rage
+                states and charm populations.
+            </td>
+        </tr>
+
+        <tr class="display-location display-furoma-rift">
+            <td>Comments:</td>
+            <td class="locationComment">Training Grounds and Pagoda separated for Brie String - Magical String coming
+                soon.
+            </td>
+        </tr>
+
+        <tr class="display-location display-labyrinth">
+            <td>Comments:</td>
+            <td class="locationComment">Labyrinth and Minotaur bases are assumed to have 50% Dead End clue negation.<br>Compass
+                Magnet Charm dead-end clue removal rate is still unknown.
+            </td>
+        </tr>
+
+        <tr class="display-location display-zugzwangs-tower">
+            <td>Comments:</td>
+            <td class="locationComment">Assumptions that were made when narrowing down populations can be found <a
+                    href="https://www.mousehuntgame.com/forum/showthread.php?95543-Catch-Rate-Calculator&p=1328110&viewfull=1#post1328110"
+                    target="_blank" rel="noopener">here</a>.
+            </td>
+        </tr>
+        </tbody>
+
+        <tbody class="input-standard">
+        <tr>
+            <td>Location:</td>
+            <td>
+                <select id="location">
+                </select>
+            </td>
+        </tr>
+
+        <tr id="phaseRow" class="hidden">
+            <td>Sublocation:</td>
+            <td>
+                <select id="phase">
+                    <option>-</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Cheese:</td>
+            <td>
+                <select id="cheese">
+                    <option>Select a location</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Special Charm:</td>
+            <td>
+                <select id="charm">
+                    <option>-</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr id="toxicRow" class="hidden">
+            <td>Toxic:</td>
+            <td>
+                <select id="toxic">
+                    <option>No</option>
+                    <option>Yes</option>
+                </select>
+            </td>
+        </tr>
+        </tbody>
+        
+        <tbody class="input-special">
+        <tr class="display-location display-furoma-rift" style="display:none">
+            <td>Battery Level:</td>
+            <td>
+                <input type="number" id="battery" min="0" max="10">
+                </input>
+            </td>
+        </tr>
+
+        <tr class="display-location display-fort-rox">
+            <td>Ballista Level:</td>
+            <td>
+                <input name="ballista" id="ballistaLevel" type="number" min="0" max="3" value="0"/>
+            </td>
+        </tr>
+        <tr class="display-location display-fort-rox">
+            <td>Cannon Level:</td>
+            <td>
+                <input name="cannon" type="number" id="cannonLevel" min="0" max="3" value="0"/>
+            </td>
+        </tr>
+
+        <tr class="display-location display-zugzwangs-tower" style="display:none">
+            <td>Amp:</td>
+            <td>
+                <input id="ampValue" type="text" size="3" value="0" readonly>%
+            </td>
+        </tr>
+
+        <tr class="display-location display-zugzwangs-tower" style="display:none">
+            <td></td>
+            <td>
+                <div id="ampSlider"></div>
+            </td>
+        </tr>
+        </tbody>
+
+        <tbody class="input-all">
+        <tr>
+            <td>Golden Shield:</td>
+            <td>
+                <select id="gs">
+                    <option value='Y'>Yes</option>
+                    <option value='N'>No</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Riftstalker Codex:</td>
+            <td>
+                <input type="checkbox" id="riftstalker">
+            </td>
+        </tr>
+
+        <tr>
+            <td>Bonus Luck:</td>
+            <td>
+                <input id="bonusLuck" type="number" value="0" min="0">
+            </td>
+        </tr>
+
+        <tr>
+            <td>Rank:</td>
+            <td>
+                <select id="rank">
+                    <option value="">-</option>
+                    <option value='novice'>Novice</option>
+                    <option value='recruit'>Recruit</option>
+                    <option value='apprentice'>Apprentice</option>
+                    <option value='initiate'>Initiate</option>
+                    <option value='journeyman'>Journeyman / Journeywoman</option>
+                    <option value='master'>Master</option>
+                    <option value='grandmaster'>Grandmaster</option>
+                    <option value='legendary'>Legendary</option>
+                    <option value='hero'>Hero</option>
+                    <option value='knight'>Knight</option>
+                    <option value='lord'>Lord / Lady</option>
+                    <option value='baron'>Baron / Baroness</option>
+                    <option value='count'>Count / Countess</option>
+                    <option value='duke'>Duke/ Duchess</option>
+                    <option value='grandduke'>Grand Duke / Grand Duchess</option>
+                    <option value='archduke'>Archduke / Archduchess</option>
+                    <option value='viceroy'>Viceroy</option>
+                    <option value='elder'>Elder</option>
+                    <option value='sage'>Sage</option>
+                </select>
+            </td>
+        </tr>
+        </tbody>
+
+        <tr class="input-standard">
+            <td><a id="link" target="_blank" rel="noopener">Link to setup</a></td>
+        </tr>
+    </table>
+
+    <div>
+        <p>Number of rows to display (fewer = faster):</p>
+        <div>
+            <input id="row50" type="radio" name="rowLimit" value="50" checked> 50
+            <input id="row100" type="radio" name="rowLimit" value="100"> 100
+            <input id="row500" type="radio" name="rowLimit" value="500"> 500
+            <input id="row1000" type="radio" name="rowLimit" value="1000"> 1000
+            <input id="rowAll" type="radio" name="rowLimit" value="All"> All
+        </div>
+        <ul class="inline">
+            <li>
+                <button id="show_weapons_button">&nbsp;Weapons&nbsp;</button>
+            </li>
+            <li>
+                <button id="show_bases_button">&nbsp;Bases&nbsp;</button>
+            </li>
+            <li>
+                <button id="show_charms_button">&nbsp;Charms&nbsp;</button>
+            </li>
+            <li>
+                <button id="save_setup_button">&nbsp;Save&nbsp;</button>
+            </li>
+        </ul>
+
+        <ul class="inline">
+            <li>
+                <button id='show_pop_button' style="font-size: 18px"><b>&nbsp;Calculate&nbsp;</b></button>
+            </li>
+            <li id="pleaseWaitMessage">Please Wait...</li>
+            <li id="status">Loading...</li>
+        </ul>
+    </div>
+
+    <ul id="weapons_selector_table" class="hidden item-selection">
+            <li><label><input type="checkbox" checked id="all_weapons_checkbox">&nbsp;All</label></li>
+    </ul>
+
+    <ul id="bases_selector_table" class="hidden">
+            <li><label><input type="checkbox" checked id="all_bases_checkbox">&nbsp;All</label></li>
+    </ul>
+
+    <ul id="charms_selector_table" class="hidden">
+        <li><label><input type="checkbox" checked id="all_charms_checkbox">&nbsp;All</label></li>
+    </ul>
+
+    <table id='trapSetup'></table>
+    <div id="pager" class="pager">
+        <form>
+            <img src="resources/img/first.png" class="first"/>
+            <img src="resources/img/prev.png" class="prev"/>
+            <span class="pagedisplay"></span>
+            <img src="resources/img/next.png" class="next"/>
+            <img src="resources/img/last.png" class="last"/>
+            &nbsp;&nbsp; Page size:
+            <select class="pagesize">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="500">500</option>
+                <option value="1000">1000</option>
+                <option value="all">All</option>
+            </select>
+            &nbsp;&nbsp; Jump to:
+            <select class="gotoPage"></select>
+        </form>
+    </div>
+    <table id='results' class='tablesorter'>
+        <thead></thead>
+        <tbody></tbody>
+    </table>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Marketplace Analyzer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="resources/img/favicon.ico">
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Verdana;
+            font-size: 12px;
+            line-height: 18px;
+        }
+        h1 {
+            font-size: 24px;
+            padding-bottom: 10px;
+        }
+        .container {
+            margin: 0 auto;
+            padding: 20px;
+            position: absolute;
+        }
+        .header {
+        	font-size: 11px;
+            width: 250px;
+        }
+        #main {
+            float: left;
+            width: 1000px;
+        }
+        #tableContainer {
+            clear: both;
+            padding-top: 2ex;
+        }
+    </style>
+
+    <script>
+        var interval = setInterval(function() {
+            waitMessage($("#waitingText").text());
+        }, 500);
+
+        function waitMessage(text) {
+            if (text == "Please wait...") {
+                $("#waitingText").text("Please wait.");
+            }
+            else if (text == "Please wait.") {
+                $("#waitingText").text("Please wait..");
+            }
+            else if (text == "Please wait..") {
+                $("#waitingText").text("Please wait...");
+            }
+        }
+    </script>
+    <!--###################################################################################-->
+</head>
+
+<body>
+<div class="container">
+
+    <div id="main">
+        <a href="index.html"><- All Tools</a><br><br>
+        <h1>Marketplace Analyzer</h1>
+    </div>
+    
+    <div class="header">
+        <a href="https://github.com/tsitu/MH-Tools/blob/master/README.md#chart_with_upwards_trend-marketplace-analyzer"
+            target="_blank" rel="noopener">Instructions</a> |
+        <a id="bookmarkletloader" href="#">Auto-Loader</a> |
+        <a id="bookmarklet" href="#">Analyzer</a>
+    </div>
+    
+    <div id="waiting">
+        <br><h2 id="waitingText">Please wait...</h2><br>
+        <h3><i>Parsing data - you may be redirected several times!</i></h3>
+    </div>
+</div>
+</body>
+
+</html>
